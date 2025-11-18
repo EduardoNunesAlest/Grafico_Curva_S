@@ -15,6 +15,7 @@ export const CurvaSView = () => {
   const { context, loading: contextLoading, error: contextError } = useMondayContext();
   const [activeTab, setActiveTab] = useState(0);
   const [config, setConfig] = useState(null);
+  const [configVersion, setConfigVersion] = useState(0);
   const [selectedGroups, setSelectedGroups] = useState([]);
 
   // Extrair boardId do contexto
@@ -46,6 +47,7 @@ export const CurvaSView = () => {
   const handleConfigChange = (newConfig) => {
     setConfig(newConfig);
     setSelectedGroups(newConfig.filtros?.gruposSelecionados || []);
+    setConfigVersion((prev) => prev + 1);
     
     // Salvar configuração no localStorage
     if (boardId) {
@@ -62,8 +64,22 @@ export const CurvaSView = () => {
     if (boardId) {
       localStorage.removeItem(`curva-s-config-${boardId}`);
     }
+    setConfigVersion(0);
     setActiveTab(0);
   };
+
+  if ((contextLoading && !context) || (boardLoading && !boardData)) {
+    return (
+      <Flex direction="column" align="center" justify="center" className="loading-state">
+        <Text type="text1" weight="bold" style={{ marginBottom: '8px' }}>
+          Preparando Curva S…
+        </Text>
+        <Text type="text2" color="secondary">
+          Estamos buscando o contexto e os dados do board.
+        </Text>
+      </Flex>
+    );
+  }
 
   // Estados de erro
   if (contextError) {
@@ -147,11 +163,24 @@ export const CurvaSView = () => {
             <TabPanel id={1}>
               <div className="tab-content">
                 {config ? (
-                  <CurvaSChart
-                    boardData={boardData}
-                    config={config}
-                    loading={boardLoading}
-                  />
+                  <>
+                    <div className="chart-toolbar">
+                      <Flex gap="small">
+                        <Button kind="secondary" size="small" onClick={() => setActiveTab(0)}>
+                          Ajustar configuração
+                        </Button>
+                        <Button kind="tertiary" size="small" onClick={handleReset}>
+                          Reiniciar
+                        </Button>
+                      </Flex>
+                    </div>
+                    <CurvaSChart
+                      key={configVersion}
+                      boardData={boardData}
+                      config={config}
+                      loading={boardLoading}
+                    />
+                  </>
                 ) : (
                   <Flex direction="column" align="center" justify="center" className="empty-state">
                     <Text type="text1" weight="bold">Configure a Curva S</Text>
