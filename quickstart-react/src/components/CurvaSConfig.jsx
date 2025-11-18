@@ -1,0 +1,185 @@
+import React, { useState, useEffect } from 'react';
+import { Flex, Dropdown, Button, Loader, Text } from '@vibe/core';
+import { getDateColumns, getNumericColumns } from '../utils/chartDataTransform';
+import './CurvaSConfig.css';
+
+/**
+ * Componente de configuração da Curva S
+ * Permite mapear colunas de data e valor para as curvas planejada e real
+ */
+export const CurvaSConfig = ({ boardData, onConfigChange, initialConfig }) => {
+  const [config, setConfig] = useState(initialConfig || {
+    eixoX: { coluna: '', formato: 'DD/MM/YYYY' },
+    curvaPlaneada: { colunaData: '', colunaValor: '', tipoCálculo: 'percentual' },
+    curvaReal: { colunaData: '', colunaValor: '', tipoCálculo: 'percentual' },
+    filtros: { gruposSelecionados: [] }
+  });
+
+  const [dateColumns, setDateColumns] = useState([]);
+  const [numericColumns, setNumericColumns] = useState([]);
+  const [groups, setGroups] = useState([]);
+
+  useEffect(() => {
+    if (boardData?.columns) {
+      setDateColumns(getDateColumns(boardData.columns));
+      setNumericColumns(getNumericColumns(boardData.columns));
+    }
+    if (boardData?.groups) {
+      setGroups(boardData.groups);
+    }
+  }, [boardData]);
+
+  const handleChange = (section, field, value) => {
+    const newConfig = {
+      ...config,
+      [section]: {
+        ...config[section],
+        [field]: value
+      }
+    };
+    setConfig(newConfig);
+  };
+
+  const handleGroupSelection = (groupId) => {
+    const currentGroups = config.filtros.gruposSelecionados;
+    const newGroups = currentGroups.includes(groupId)
+      ? currentGroups.filter(id => id !== groupId)
+      : [...currentGroups, groupId];
+    
+    const newConfig = {
+      ...config,
+      filtros: { gruposSelecionados: newGroups }
+    };
+    setConfig(newConfig);
+  };
+
+  const handleApply = () => {
+    if (validateConfig()) {
+      onConfigChange(config);
+    }
+  };
+
+  const validateConfig = () => {
+    const { curvaPlaneada, curvaReal } = config;
+    return (
+      curvaPlaneada.colunaData &&
+      curvaPlaneada.colunaValor &&
+      curvaReal.colunaData &&
+      curvaReal.colunaValor
+    );
+  };
+
+  if (!boardData) {
+    return (
+      <Flex direction="column" align="center" justify="center" style={{ padding: '40px' }}>
+        <Loader size={40} />
+        <Text>Carregando dados do board...</Text>
+      </Flex>
+    );
+  }
+
+  const dateOptions = dateColumns.map(col => ({
+    value: col.id,
+    label: col.title
+  }));
+
+  const numericOptions = numericColumns.map(col => ({
+    value: col.id,
+    label: col.title
+  }));
+
+  return (
+    <div className="curva-s-config">
+      <div className="config-content">
+        <div className="config-grid">
+          <div className="config-card">
+            <div className="config-card__header">
+              <Text type="text1" weight="bold">Configuração da Curva Planejada</Text>
+              <Text type="text3" color="secondary">
+                Escolha as colunas que representam datas e valores planejados.
+              </Text>
+            </div>
+            <Flex direction="column" gap="medium">
+              <Dropdown
+                placeholder="Selecione a coluna de data"
+                options={dateOptions}
+                value={config.curvaPlaneada.colunaData}
+                onChange={(option) => handleChange('curvaPlaneada', 'colunaData', option.value)}
+                size="large"
+              />
+              <Dropdown
+                placeholder="Selecione a coluna de valor"
+                options={numericOptions}
+                value={config.curvaPlaneada.colunaValor}
+                onChange={(option) => handleChange('curvaPlaneada', 'colunaValor', option.value)}
+                size="large"
+              />
+            </Flex>
+          </div>
+
+          <div className="config-card">
+            <div className="config-card__header">
+              <Text type="text1" weight="bold">Configuração da Curva Real</Text>
+              <Text type="text3" color="secondary">
+                Mapeie as colunas correspondentes ao progresso realizado.
+              </Text>
+            </div>
+            <Flex direction="column" gap="medium">
+              <Dropdown
+                placeholder="Selecione a coluna de data"
+                options={dateOptions}
+                value={config.curvaReal.colunaData}
+                onChange={(option) => handleChange('curvaReal', 'colunaData', option.value)}
+                size="large"
+              />
+              <Dropdown
+                placeholder="Selecione a coluna de valor"
+                options={numericOptions}
+                value={config.curvaReal.colunaValor}
+                onChange={(option) => handleChange('curvaReal', 'colunaValor', option.value)}
+                size="large"
+              />
+            </Flex>
+          </div>
+        </div>
+
+        {groups.length > 0 && (
+          <div className="config-card config-card--groups">
+            <div className="config-card__header">
+              <Text type="text1" weight="bold">Filtrar por Grupos (opcional)</Text>
+              <Text type="text3" color="secondary">
+                Selecione apenas os grupos que deseja considerar no gráfico.
+              </Text>
+            </div>
+            <div className="groups-list">
+              {groups.map(group => (
+                <label key={group.id} className="group-checkbox">
+                  <input
+                    type="checkbox"
+                    checked={config.filtros.gruposSelecionados.includes(group.id)}
+                    onChange={() => handleGroupSelection(group.id)}
+                  />
+                  <span className="group-checkbox__label" style={{ color: group.color || '#333' }}>
+                    {group.title}
+                  </span>
+                </label>
+              ))}
+            </div>
+          </div>
+        )}
+
+        <div className="config-actions">
+          <Button
+            onClick={handleApply}
+            disabled={!validateConfig()}
+            size="large"
+            kind="primary"
+            className="apply-button"
+          >
+            Aplicar Configuração
+          </Button>
+        </div>
+      </div>
+    </div>
+  );
+}

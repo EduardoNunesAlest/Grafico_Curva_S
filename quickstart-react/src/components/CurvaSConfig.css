@@ -1,0 +1,108 @@
+.curva-s-config {
+  padding: 28px 32px;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 8px 32px rgba(15, 30, 63, 0.08);
+}
+
+.config-content {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+.config-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 24px;
+}
+
+.config-card {
+  background: #f6f7fb;
+  border-radius: 12px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  box-shadow: inset 0 0 0 1px rgba(0, 115, 234, 0.08);
+}
+
+.config-card__header {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.config-card--groups {
+  padding: 24px;
+}
+
+.groups-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 12px;
+}
+
+.group-checkbox {
+  display: flex;
+  align-items: center;
+  padding: 12px 14px;
+  background: #ffffff;
+  border-radius: 10px;
+  border: 1px solid rgba(0, 115, 234, 0.16);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  gap: 10px;
+}
+
+.group-checkbox:hover {
+  background: #e9f3ff;
+  border-color: rgba(0, 115, 234, 0.4);
+}
+
+.group-checkbox input[type="checkbox"] {
+  cursor: pointer;
+  width: 18px;
+  height: 18px;
+  accent-color: #0073ea;
+}
+
+.group-checkbox__label {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.config-actions {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.apply-button {
+  min-width: 220px;
+  height: 48px;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+@media (max-width: 768px) {
+  .curva-s-config {
+    padding: 20px;
+  }
+
+  .config-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .config-card {
+    padding: 20px;
+  }
+
+  .groups-list {
+    grid-template-columns: 1fr;
+  }
+
+  .apply-button {
+    width: 100%;
+  }
+}

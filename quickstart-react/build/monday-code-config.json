@@ -1,0 +1,26 @@
+{
+  "name": "Curva S",
+  "short_description": "Análise de Curva S para projetos",
+  "long_description": "Visualização de curvas S para análise comparativa de progresso planejado vs real. Permite configurar mapeamento de colunas, filtrar por grupos e visualizar desvios entre planejado e realizado.",
+  "version": "1.0.1",
+  "icon": "https://dapulse-res.cloudinary.com/image/upload/f_auto,q_auto/remote_mondaycom_static/uploads/VladMystetskyi/4d3d2b69-9a2b-43d8-b6d3-4f3d5e8e7c6a_chart-line.png",
+  "permissions": {
+    "scopes": [
+      "boards:read",
+      "groups:read",
+      "columns:read",
+      "items:read",
+      "boards:write"
+    ]
+  },
+  "features": {
+    "board_view": {
+      "main_view": {
+        "url": "index.html",
+        "supported_layouts": [
+          "main_view"
+        ]
+      }
+    }
+  }
+}

@@ -1,0 +1,92 @@
+.curva-s-view {
+  width: 100%;
+  min-height: 100vh;
+  background: #f6f7fb;
+  padding: 20px;
+  font-family: 'Figtree', 'Roboto', sans-serif;
+}
+
+.view-header {
+  background: #ffffff;
+  padding: 24px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+}
+
+.view-tabs {
+  background: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+.tab-content {
+  padding: 24px;
+  min-height: 500px;
+}
+
+.error-state,
+.empty-state {
+  min-height: 400px;
+  background: #ffffff;
+  border-radius: 8px;
+  padding: 40px;
+  text-align: center;
+}
+
+.error-state {
+  background: #fff5f5;
+  border: 1px solid #feb2b2;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .curva-s-view {
+    padding: 12px;
+  }
+
+  .view-header {
+    padding: 16px;
+  }
+
+  .tab-content {
+    padding: 16px;
+  }
+}
+
+/* Animações */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.tab-content {
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+/* Acessibilidade */
+.curva-s-view *:focus-visible {
+  outline: 2px solid #0073ea;
+  outline-offset: 2px;
+}
+
+/* Dark mode support (se necessário) */
+@media (prefers-color-scheme: dark) {
+  .curva-s-view {
+    background: #1a1a1a;
+  }
+
+  .view-header,
+  .view-tabs,
+  .empty-state {
+    background: #2d2d2d;
+    color: #ffffff;
+  }
+}
