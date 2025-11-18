@@ -121,23 +121,23 @@ export const CurvaSView = () => {
   return (
     <ErrorBoundary onReset={handleReset}>
       <div className="curva-s-view">
-        <div className="view-header">
-          <Flex justify="space-between" align="center">
-            <div>
-              <Text type="text1" weight="bold" style={{ fontSize: '24px', marginBottom: '4px' }}>
-                Curva S - Análise de Progresso
-              </Text>
-              <Text type="text2" color="secondary">
-                {boardData?.name || 'Carregando...'}
-              </Text>
-            </div>
+        <header className="view-header">
+          <div className="view-header__titles">
+            <Text type="text1" weight="bold" className="view-title">
+              Curva S - Análise de Progresso
+            </Text>
+            <Text type="text2" color="secondary" className="view-subtitle">
+              {boardData?.name || 'Carregando...'}
+            </Text>
+          </div>
+          <div className="view-header__actions">
             {config && (
-              <Button onClick={handleReset} kind="tertiary">
-                Reconfigurar
+              <Button onClick={handleReset} kind="secondary" size="small">
+                Limpar configuração
               </Button>
             )}
-          </Flex>
-        </div>
+          </div>
+        </header>
 
         <TabsContext 
           activeTabId={activeTab} 
@@ -145,8 +145,12 @@ export const CurvaSView = () => {
           className="view-tabs"
         >
           <TabList>
-            <Tab id={0}>Configuração</Tab>
-            <Tab id={1} disabled={!config}>Gráfico</Tab>
+            <Tab id={0}>
+              <span className="tab-label">Configuração</span>
+            </Tab>
+            <Tab id={1} disabled={!config}>
+              <span className="tab-label">Gráfico</span>
+            </Tab>
           </TabList>
 
           <TabPanels>

@@ -30,7 +30,7 @@
 
 .config-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
   gap: 24px;
 }
 
@@ -54,22 +54,29 @@
   display: flex;
   flex-direction: column;
   gap: 6px;
+  width: 100%;
 }
 
 .config-field__label {
   color: #101828;
 }
 
+
 .config-dropdown .vibe-dropdown__control {
-  min-height: 48px;
-  border-radius: 10px;
-  font-size: 15px;
+  min-height: 52px;
+  border-radius: 12px;
+  font-size: 16px;
+  padding: 0 16px;
 }
 
 .config-dropdown .vibe-dropdown__placeholder,
 .config-dropdown .vibe-dropdown__single-value {
-  font-size: 15px;
-  color: #101828;
+  font-size: 16px;
+  color: #0f172A;
+  max-width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 

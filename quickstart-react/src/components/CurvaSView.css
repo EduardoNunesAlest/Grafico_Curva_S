@@ -1,38 +1,85 @@
+
 .curva-s-view {
   width: 100%;
   min-height: 100vh;
-  background: #f6f7fb;
-  padding: 20px;
+  background: linear-gradient(180deg, #0b1220 0%, #141c2c 100%);
+  padding: 28px;
   font-family: 'Figtree', 'Roboto', sans-serif;
+  color: #1d1d1d;
 }
 
 .view-header {
-  background: #ffffff;
-  padding: 24px;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  margin-bottom: 20px;
+  background: rgba(255, 255, 255, 0.96);
+  padding: 28px;
+  border-radius: 18px;
+  box-shadow: 0 25px 80px rgba(15, 24, 45, 0.35);
+  margin-bottom: 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+}
+
+.view-title {
+  font-size: 26px;
+  color: #0f172a;
+}
+
+.view-subtitle {
+  color: #475467;
 }
 
 .view-tabs {
-  background: #ffffff;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  background: rgba(255, 255, 255, 0.98);
+  border-radius: 18px;
+  box-shadow: 0 20px 60px rgba(15, 24, 45, 0.25);
   overflow: hidden;
 }
 
+
+.view-tabs .vibe-tabs__tab-list {
+  background: transparent;
+  padding: 0 24px;
+  border-bottom: 1px solid rgba(15, 24, 45, 0.1);
+}
+
+.view-tabs .vibe-tabs__tab {
+  padding: 16px 0;
+}
+
+.tab-label {
+  font-size: 15px;
+  font-weight: 600;
+  color: #94a3b8;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.view-tabs .vibe-tabs__tab--active .tab-label {
+  color: #0f172a;
+}
+
+.view-tabs .vibe-tabs__indicator {
+  height: 3px;
+  background: linear-gradient(90deg, #0ea5e9, #6366f1);
+  border-radius: 3px;
+}
+
 .tab-content {
-  padding: 24px;
+  padding: 32px;
   min-height: 500px;
+  background: rgba(248, 250, 252, 0.85);
 }
 
 .error-state,
-.empty-state {
+.empty-state,
+.loading-state {
   min-height: 400px;
-  background: #ffffff;
-  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 16px;
   padding: 40px;
   text-align: center;
+  box-shadow: 0 20px 60px rgba(15, 24, 45, 0.2);
 }
 
 .error-state {
@@ -43,15 +90,17 @@
 /* Responsividade */
 @media (max-width: 768px) {
   .curva-s-view {
-    padding: 12px;
+    padding: 16px;
   }
 
   .view-header {
-    padding: 16px;
+    padding: 20px;
+    flex-direction: column;
+    align-items: flex-start;
   }
 
   .tab-content {
-    padding: 16px;
+    padding: 20px;
   }
 }
 
@@ -80,13 +129,39 @@
 /* Dark mode support (se necessário) */
 @media (prefers-color-scheme: dark) {
   .curva-s-view {
-    background: #1a1a1a;
+    background: linear-gradient(180deg, #05070f 0%, #0b1220 100%);
   }
 
   .view-header,
   .view-tabs,
-  .empty-state {
-    background: #2d2d2d;
-    color: #ffffff;
+  .tab-content,
+  .error-state,
+  .empty-state,
+  .loading-state {
+    background: rgba(19, 27, 43, 0.9);
+    color: #f8fafc;
   }
+
+  .view-title {
+    color: #f8fafc;
+  }
+
+  .view-subtitle,
+  .tab-label {
+    color: #cbd5f5;
+  }
+
+  .view-tabs .vibe-tabs__tab-list {
+    border-color: rgba(148, 163, 184, 0.3);
+  }
+
+  .view-tabs .vibe-tabs__indicator {
+    background: linear-gradient(90deg, #38bdf8, #818cf8);
+  }
+}
+
+.chart-toolbar {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 16px;
 }
