@@ -121,6 +121,7 @@ export const CurvaSView = () => {
   return (
     <ErrorBoundary onReset={handleReset}>
       <div className="curva-s-view">
+        <div className="curva-s-shell">
         <header className="view-header">
           <div className="view-header__titles">
             <Text type="text1" weight="bold" className="view-title">
@@ -132,7 +133,7 @@ export const CurvaSView = () => {
           </div>
           <div className="view-header__actions">
             {config && (
-              <Button onClick={handleReset} kind="secondary" size="small">
+              <Button onClick={handleReset} kind="secondary" size="small" className="ghost-button">
                 Limpar configuração
               </Button>
             )}
@@ -170,10 +171,10 @@ export const CurvaSView = () => {
                   <>
                     <div className="chart-toolbar">
                       <Flex gap="small">
-                        <Button kind="secondary" size="small" onClick={() => setActiveTab(0)}>
+                        <Button kind="secondary" size="small" onClick={() => setActiveTab(0)} className="ghost-button">
                           Ajustar configuração
                         </Button>
-                        <Button kind="tertiary" size="small" onClick={handleReset}>
+                        <Button kind="tertiary" size="small" onClick={handleReset} className="ghost-button ghost-button--outline">
                           Reiniciar
                         </Button>
                       </Flex>
@@ -197,6 +198,7 @@ export const CurvaSView = () => {
             </TabPanel>
           </TabPanels>
         </TabsContext>
+        </div>
       </div>
     </ErrorBoundary>
   );
