@@ -1,8 +1,25 @@
 .curva-s-config {
-  padding: 28px 32px;
-  background: #ffffff;
-  border-radius: 12px;
-  box-shadow: 0 8px 32px rgba(15, 30, 63, 0.08);
+  min-height: 100%;
+  padding: 32px;
+  background: linear-gradient(180deg, #101828 0%, #0b1220 100%);
+}
+
+.config-shell {
+  max-width: 1160px;
+  margin: 0 auto;
+  background: #f9fafc;
+  border-radius: 18px;
+  box-shadow: 0 20px 60px rgba(15, 24, 45, 0.35);
+  padding: 32px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.config-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 32px;
+  gap: 16px;
 }
 
 .config-content {
@@ -18,13 +35,13 @@
 }
 
 .config-card {
-  background: #f6f7fb;
+  background: #ffffff;
   border-radius: 12px;
-  padding: 24px;
+  padding: 24px 28px;
   display: flex;
   flex-direction: column;
   gap: 20px;
-  box-shadow: inset 0 0 0 1px rgba(0, 115, 234, 0.08);
+  box-shadow: 0 10px 35px rgba(16, 24, 40, 0.12);
 }
 
 .config-card__header {
@@ -33,8 +50,31 @@
   gap: 4px;
 }
 
+.config-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.config-field__label {
+  color: #101828;
+}
+
+.config-dropdown .vibe-dropdown__control {
+  min-height: 48px;
+  border-radius: 10px;
+  font-size: 15px;
+}
+
+.config-dropdown .vibe-dropdown__placeholder,
+.config-dropdown .vibe-dropdown__single-value {
+  font-size: 15px;
+  color: #101828;
+}
+
+
 .config-card--groups {
-  padding: 24px;
+  padding: 24px 28px 28px;
 }
 
 .groups-list {
@@ -43,21 +83,22 @@
   gap: 12px;
 }
 
+
 .group-checkbox {
   display: flex;
   align-items: center;
   padding: 12px 14px;
-  background: #ffffff;
-  border-radius: 10px;
-  border: 1px solid rgba(0, 115, 234, 0.16);
+  background: #f9fbff;
+  border-radius: 12px;
+  border: 1px solid rgba(0, 115, 234, 0.18);
   cursor: pointer;
   transition: all 0.2s ease;
   gap: 10px;
 }
 
 .group-checkbox:hover {
-  background: #e9f3ff;
-  border-color: rgba(0, 115, 234, 0.4);
+  background: #e2edff;
+  border-color: rgba(0, 115, 234, 0.35);
 }
 
 .group-checkbox input[type="checkbox"] {
@@ -72,16 +113,19 @@
   font-weight: 500;
 }
 
+
 .config-actions {
   display: flex;
   justify-content: flex-end;
 }
 
+
 .apply-button {
-  min-width: 220px;
-  height: 48px;
+  min-width: 240px;
+  height: 52px;
   font-size: 16px;
   font-weight: 600;
+  box-shadow: 0 12px 24px rgba(0, 115, 234, 0.35);
 }
 
 @media (max-width: 768px) {
@@ -89,13 +133,17 @@
     padding: 20px;
   }
 
+  .config-shell {
+    padding: 24px;
+  }
+
+  .config-header {
+    flex-direction: column;
+  }
+
   .config-grid {
     grid-template-columns: 1fr;
     gap: 16px;
-  }
-
-  .config-card {
-    padding: 20px;
   }
 
   .groups-list {

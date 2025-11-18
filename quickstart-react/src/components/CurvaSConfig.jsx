@@ -90,94 +90,132 @@ export const CurvaSConfig = ({ boardData, onConfigChange, initialConfig }) => {
 
   return (
     <div className="curva-s-config">
-      <div className="config-content">
-        <div className="config-grid">
-          <div className="config-card">
-            <div className="config-card__header">
-              <Text type="text1" weight="bold">Configuração da Curva Planejada</Text>
-              <Text type="text3" color="secondary">
-                Escolha as colunas que representam datas e valores planejados.
-              </Text>
-            </div>
-            <Flex direction="column" gap="medium">
-              <Dropdown
-                placeholder="Selecione a coluna de data"
-                options={dateOptions}
-                value={config.curvaPlaneada.colunaData}
-                onChange={(option) => handleChange('curvaPlaneada', 'colunaData', option.value)}
-                size="large"
-              />
-              <Dropdown
-                placeholder="Selecione a coluna de valor"
-                options={numericOptions}
-                value={config.curvaPlaneada.colunaValor}
-                onChange={(option) => handleChange('curvaPlaneada', 'colunaValor', option.value)}
-                size="large"
-              />
-            </Flex>
+      <div className="config-shell">
+        <div className="config-header">
+          <div>
+            <Text type="text2" color="secondary">Projeto</Text>
+            <Text type="text1" weight="bold">
+              {boardData?.name || 'Curva S - Configuração'}
+            </Text>
           </div>
-
-          <div className="config-card">
-            <div className="config-card__header">
-              <Text type="text1" weight="bold">Configuração da Curva Real</Text>
-              <Text type="text3" color="secondary">
-                Mapeie as colunas correspondentes ao progresso realizado.
-              </Text>
-            </div>
-            <Flex direction="column" gap="medium">
-              <Dropdown
-                placeholder="Selecione a coluna de data"
-                options={dateOptions}
-                value={config.curvaReal.colunaData}
-                onChange={(option) => handleChange('curvaReal', 'colunaData', option.value)}
-                size="large"
-              />
-              <Dropdown
-                placeholder="Selecione a coluna de valor"
-                options={numericOptions}
-                value={config.curvaReal.colunaValor}
-                onChange={(option) => handleChange('curvaReal', 'colunaValor', option.value)}
-                size="large"
-              />
-            </Flex>
-          </div>
+          <Text type="text3" color="secondary">
+            Configure o mapeamento das colunas antes de visualizar o gráfico.
+          </Text>
         </div>
 
-        {groups.length > 0 && (
-          <div className="config-card config-card--groups">
-            <div className="config-card__header">
-              <Text type="text1" weight="bold">Filtrar por Grupos (opcional)</Text>
-              <Text type="text3" color="secondary">
-                Selecione apenas os grupos que deseja considerar no gráfico.
-              </Text>
-            </div>
-            <div className="groups-list">
-              {groups.map(group => (
-                <label key={group.id} className="group-checkbox">
-                  <input
-                    type="checkbox"
-                    checked={config.filtros.gruposSelecionados.includes(group.id)}
-                    onChange={() => handleGroupSelection(group.id)}
+        <div className="config-content">
+          <div className="config-grid">
+            <div className="config-card">
+              <div className="config-card__header">
+                <Text type="text1" weight="bold">Configuração da Curva Planejada</Text>
+                <Text type="text3" color="secondary">
+                  Escolha as colunas que representam datas e valores planejados.
+                </Text>
+              </div>
+              <Flex direction="column" gap="medium">
+                <div className="config-field">
+                  <Text type="text3" weight="medium" className="config-field__label">
+                    Coluna de data (planejado)
+                  </Text>
+                  <Dropdown
+                    className="config-dropdown"
+                    placeholder="Selecione a coluna de data"
+                    options={dateOptions}
+                    value={config.curvaPlaneada.colunaData}
+                    onChange={(option) => handleChange('curvaPlaneada', 'colunaData', option.value)}
+                    size="large"
                   />
-                  <span className="group-checkbox__label" style={{ color: group.color || '#333' }}>
-                    {group.title}
-                  </span>
-                </label>
-              ))}
+                </div>
+                <div className="config-field">
+                  <Text type="text3" weight="medium" className="config-field__label">
+                    Coluna de valor (planejado)
+                  </Text>
+                  <Dropdown
+                    className="config-dropdown"
+                    placeholder="Selecione a coluna de valor"
+                    options={numericOptions}
+                    value={config.curvaPlaneada.colunaValor}
+                    onChange={(option) => handleChange('curvaPlaneada', 'colunaValor', option.value)}
+                    size="large"
+                  />
+                </div>
+              </Flex>
+            </div>
+
+            <div className="config-card">
+              <div className="config-card__header">
+                <Text type="text1" weight="bold">Configuração da Curva Real</Text>
+                <Text type="text3" color="secondary">
+                  Mapeie as colunas correspondentes ao progresso realizado.
+                </Text>
+              </div>
+              <Flex direction="column" gap="medium">
+                <div className="config-field">
+                  <Text type="text3" weight="medium" className="config-field__label">
+                    Coluna de data (real)
+                  </Text>
+                  <Dropdown
+                    className="config-dropdown"
+                    placeholder="Selecione a coluna de data"
+                    options={dateOptions}
+                    value={config.curvaReal.colunaData}
+                    onChange={(option) => handleChange('curvaReal', 'colunaData', option.value)}
+                    size="large"
+                  />
+                </div>
+                <div className="config-field">
+                  <Text type="text3" weight="medium" className="config-field__label">
+                    Coluna de valor (real)
+                  </Text>
+                  <Dropdown
+                    className="config-dropdown"
+                    placeholder="Selecione a coluna de valor"
+                    options={numericOptions}
+                    value={config.curvaReal.colunaValor}
+                    onChange={(option) => handleChange('curvaReal', 'colunaValor', option.value)}
+                    size="large"
+                  />
+                </div>
+              </Flex>
             </div>
           </div>
-        )}
 
-        <div className="config-actions">
-          <Button
-            onClick={handleApply}
-            disabled={!validateConfig()}
-            size="large"
-            kind="primary"
-            className="apply-button"
-          >
-            Aplicar Configuração
-          </Button>
+          {groups.length > 0 && (
+            <div className="config-card config-card--groups">
+              <div className="config-card__header">
+                <Text type="text1" weight="bold">Filtrar por Grupos (opcional)</Text>
+                <Text type="text3" color="secondary">
+                  Selecione apenas os grupos que deseja considerar no gráfico.
+                </Text>
+              </div>
+              <div className="groups-list">
+                {groups.map(group => (
+                  <label key={group.id} className="group-checkbox">
+                    <input
+                      type="checkbox"
+                      checked={config.filtros.gruposSelecionados.includes(group.id)}
+                      onChange={() => handleGroupSelection(group.id)}
+                    />
+                    <span className="group-checkbox__label" style={{ color: group.color || '#333' }}>
+                      {group.title}
+                    </span>
+                  </label>
+                ))}
+              </div>
+            </div>
+          )}
+
+          <div className="config-actions">
+            <Button
+              onClick={handleApply}
+              disabled={!validateConfig()}
+              size="large"
+              kind="primary"
+              className="apply-button"
+            >
+              Aplicar Configuração
+            </Button>
+          </div>
         </div>
       </div>
     </div>
