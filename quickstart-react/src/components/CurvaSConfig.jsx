@@ -1,23 +1,45 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { Flex, Dropdown, Button, Loader, Text } from '@vibe/core';
 import { getDateColumns, getNumericColumns } from '../utils/chartDataTransform';
 import './CurvaSConfig.css';
+
+const DEFAULT_CONFIG = {
+  curvaPlaneada: { colunaData: '', colunaValor: '', tipoCálculo: 'percentual' },
+  curvaReal: { colunaData: '', colunaValor: '', tipoCálculo: 'percentual' },
+  filtros: { gruposSelecionados: [] }
+};
 
 /**
  * Componente de configuração da Curva S
  * Permite mapear colunas de data e valor para as curvas planejada e real
  */
 export const CurvaSConfig = ({ boardData, onConfigChange, initialConfig }) => {
-  const [config, setConfig] = useState(initialConfig || {
-    eixoX: { coluna: '', formato: 'DD/MM/YYYY' },
-    curvaPlaneada: { colunaData: '', colunaValor: '', tipoCálculo: 'percentual' },
-    curvaReal: { colunaData: '', colunaValor: '', tipoCálculo: 'percentual' },
-    filtros: { gruposSelecionados: [] }
-  });
+  const [config, setConfig] = useState(initialConfig || DEFAULT_CONFIG);
 
   const [dateColumns, setDateColumns] = useState([]);
   const [numericColumns, setNumericColumns] = useState([]);
   const [groups, setGroups] = useState([]);
+
+  useEffect(() => {
+    if (initialConfig) {
+      setConfig(prev => ({
+        ...DEFAULT_CONFIG,
+        ...initialConfig,
+        curvaPlaneada: {
+          ...DEFAULT_CONFIG.curvaPlaneada,
+          ...initialConfig.curvaPlaneada
+        },
+        curvaReal: {
+          ...DEFAULT_CONFIG.curvaReal,
+          ...initialConfig.curvaReal
+        },
+        filtros: {
+          ...DEFAULT_CONFIG.filtros,
+          ...initialConfig.filtros
+        }
+      }));
+    }
+  }, [initialConfig]);
 
   useEffect(() => {
     if (boardData?.columns) {
@@ -88,6 +110,13 @@ export const CurvaSConfig = ({ boardData, onConfigChange, initialConfig }) => {
     label: col.title
   }));
 
+  const selectedValues = useMemo(() => ({
+    plannedDate: dateOptions.find(opt => opt.value === config.curvaPlaneada.colunaData) || null,
+    plannedValue: numericOptions.find(opt => opt.value === config.curvaPlaneada.colunaValor) || null,
+    realDate: dateOptions.find(opt => opt.value === config.curvaReal.colunaData) || null,
+    realValue: numericOptions.find(opt => opt.value === config.curvaReal.colunaValor) || null
+  }), [config, dateOptions, numericOptions]);
+
   return (
     <div className="curva-s-config">
       <div className="config-shell">
@@ -121,7 +150,7 @@ export const CurvaSConfig = ({ boardData, onConfigChange, initialConfig }) => {
                     className="config-dropdown"
                     placeholder="Selecione a coluna de data"
                     options={dateOptions}
-                    value={config.curvaPlaneada.colunaData}
+                    value={selectedValues.plannedDate}
                     onChange={(option) => handleChange('curvaPlaneada', 'colunaData', option.value)}
                     size="large"
                   />
@@ -134,7 +163,7 @@ export const CurvaSConfig = ({ boardData, onConfigChange, initialConfig }) => {
                     className="config-dropdown"
                     placeholder="Selecione a coluna de valor"
                     options={numericOptions}
-                    value={config.curvaPlaneada.colunaValor}
+                    value={selectedValues.plannedValue}
                     onChange={(option) => handleChange('curvaPlaneada', 'colunaValor', option.value)}
                     size="large"
                   />
@@ -158,7 +187,7 @@ export const CurvaSConfig = ({ boardData, onConfigChange, initialConfig }) => {
                     className="config-dropdown"
                     placeholder="Selecione a coluna de data"
                     options={dateOptions}
-                    value={config.curvaReal.colunaData}
+                    value={selectedValues.realDate}
                     onChange={(option) => handleChange('curvaReal', 'colunaData', option.value)}
                     size="large"
                   />
@@ -171,7 +200,7 @@ export const CurvaSConfig = ({ boardData, onConfigChange, initialConfig }) => {
                     className="config-dropdown"
                     placeholder="Selecione a coluna de valor"
                     options={numericOptions}
-                    value={config.curvaReal.colunaValor}
+                    value={selectedValues.realValue}
                     onChange={(option) => handleChange('curvaReal', 'colunaValor', option.value)}
                     size="large"
                   />
